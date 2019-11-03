@@ -35,31 +35,33 @@ public class Curl {
 		return client.execute(httpGet);
 	}
 
-	private static HttpResponse postData(URI uri) throws IOException {
+	private static HttpResponse postData(URI uri, String requestBody) throws IOException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(uri);
-		StringEntity entity = new StringEntity("test");
-		httpPost.setEntity(entity);
+		StringEntity requestBodyEntity = new StringEntity(requestBody);
+		httpPost.setEntity(requestBodyEntity);
 		HttpResponse httpResponse = client.execute(httpPost);
 		return httpResponse;
 	}
 
-	private static HttpResponse putData(URI uri) throws IOException {
+	private static HttpResponse putData(URI uri, String requestBody) throws IOException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPut httpPut = new HttpPut(uri);
+		StringEntity requestBodyEntity = new StringEntity(requestBody);
+		httpPut.setEntity(requestBodyEntity);
 		return client.execute(httpPut);
 	}
 
-	public static String makeRequest(String scheme, String host, String path, String type) throws URISyntaxException, IOException {
+	public static String makeRequest(String scheme, String host, String path, String type, String requestBody) throws URISyntaxException, IOException {
 		URI uri = createUri(scheme, host, path);
 		HttpResponse response;
 
 		switch (type){
 			case "POST":
-				response = postData(uri);
+				response = postData(uri, requestBody);
 				break;
 			case "PUT":
-				response = putData(uri);
+				response = putData(uri, requestBody);
 				break;
 			default:
 				response = getData(uri);

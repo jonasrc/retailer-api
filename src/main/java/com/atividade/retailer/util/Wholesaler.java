@@ -14,17 +14,13 @@ public class Wholesaler {
 		put("postOrder", "/order");
 	}};
 
-	public static String postOrder(String test) throws IOException, URISyntaxException {
-		HashMap<String, String> parameters = new HashMap<String, String>();
-
-		//Stringify JSON with products array
-		parameters.put("test", test);
-
+	public static String postOrder(String requestBody) throws IOException, URISyntaxException {
 		String response = Curl.makeRequest(
 				wholesalerApi.get("scheme"),
 				wholesalerApi.get("host"),
 				wholesalerApi.get("postOrder"),
-				"POST");
+				"POST",
+				requestBody);
 
 		return response;
 	}

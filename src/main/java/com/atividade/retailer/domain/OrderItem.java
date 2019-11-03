@@ -1,7 +1,5 @@
 package com.atividade.retailer.domain;
 
-import java.util.UUID;
-
 public class OrderItem {
     private Long productCode;
 

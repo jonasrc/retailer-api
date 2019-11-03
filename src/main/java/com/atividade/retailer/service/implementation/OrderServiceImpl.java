@@ -1,8 +1,11 @@
 package com.atividade.retailer.service.implementation;
 
 import com.atividade.retailer.domain.Order;
+import com.atividade.retailer.domain.OrderItem;
 import com.atividade.retailer.service.OrderService;
 import com.atividade.retailer.util.Wholesaler;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,24 +14,34 @@ import java.util.NoSuchElementException;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     private List<Order> orderList;
 
+    public OrderServiceImpl() {
+        this.orderList = new ArrayList<>();
+    }
+
     @Override
-    public Order create() {
+    public Order create(ArrayList<OrderItem> orderItemList) {
+        String orderItemListString = new JSONArray(orderItemList).toString();
+        String wholesalerApiResponse = "";
+
         try {
-            String wholesalerApiResponse = Wholesaler.postOrder("test");
+            wholesalerApiResponse = Wholesaler.postOrder(orderItemListString);
+            int a = 1;
         }
         catch(Exception exception) {
             int a = 1;
         }
 
-        Order order = new Order("teste", "teste");
+        // Transformação do retorno da API do atacadista em JSON
+        JSONObject jsonResponse = new JSONObject(wholesalerApiResponse);
 
-        if(orderList == null){
-            orderList = new ArrayList<>();
-        }
+        // Criação do pedido na API do lojista a partir da resposta da API do atacadista
+        Order order = new Order(jsonResponse.getString("status"), jsonResponse.getString("id"));
 
-        orderList.add(order);
+        // Adição do pedido à lista de pedidos da API do lojista
+        this.orderList.add(order);
 
         return order;
     }

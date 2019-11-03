@@ -19,7 +19,7 @@ public interface OrderController {
 
     @ApiOperation(value = "Criar novo pedido de produtos")
     public ResponseEntity<Order> create(
-            @ApiParam(value = "Lista de produtos do pedido", required = true)
+            @ApiParam(value = "Lista de itens do pedido, cada qual contando com código e número de determinado produto a ser requisitado", required = true)
             @RequestBody ArrayList<OrderItem> orderItemList);
 
     @ApiOperation(value = "Postback de status do pedido de compra de produtos")

@@ -36,7 +36,7 @@ public class OrderControllerImpl implements OrderController {
     @Override
     @PostMapping("/order")
     public ResponseEntity<Order> create(ArrayList<OrderItem> orderItemList){
-        Order order = orderService.create();
+        Order order = orderService.create(orderItemList);
         return ResponseEntity.created(URI.create(order.getId())).body(order);
     }
 
