@@ -45,5 +45,7 @@ public class OrderControllerImpl implements OrderController {
     @PutMapping("/order")
     public void updateStatus(String data) {
         JSONObject jsonObject = new JSONObject(data);
+        orderService.updateStatus(jsonObject.getString("orderId"), jsonObject.getString("orderStatus"));
+        int a = 1;
     }
 }

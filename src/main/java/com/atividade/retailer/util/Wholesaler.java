@@ -26,7 +26,7 @@ public class Wholesaler {
 		return response;
 	}
 
-	public static String postBudgetAcceptance(String requestBody) throws IOException, URISyntaxException {
+	public static String putBudgetAcceptance(String requestBody) throws IOException, URISyntaxException {
 		String response = Curl.makeRequest(
 				wholesalerApi.get("scheme"),
 				wholesalerApi.get("host"),

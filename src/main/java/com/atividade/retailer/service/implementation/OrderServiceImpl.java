@@ -74,9 +74,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateStatus(String id, String status) {
-        Order order = getById(id);
+    public Order updateStatus(String idOnWholesalerApi, String status) {
+        Order order = getByWholesalerApiId(idOnWholesalerApi);
         order.setStatus(status);
+        return order;
+    }
+
+    private Order getByWholesalerApiId(String id){
+        Order order = orderList.stream().filter(element -> element.getIdOnWholesalerApi().equals(id)).findAny().orElse(null);
+
+        if(order == null){
+            throw new NoSuchElementException("Order not found.");
+        }
+
         return order;
     }
 }

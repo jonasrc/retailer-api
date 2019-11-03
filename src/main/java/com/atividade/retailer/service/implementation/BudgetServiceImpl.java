@@ -2,8 +2,12 @@ package com.atividade.retailer.service.implementation;
 
 import com.atividade.retailer.domain.Budget;
 import com.atividade.retailer.service.BudgetService;
+import com.atividade.retailer.util.Wholesaler;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -42,5 +46,13 @@ public class BudgetServiceImpl implements BudgetService {
         this.budgetList.add(budget);
 
         return budget;
+    }
+
+    @Override
+    public String putAcceptance(String id, String acceptance) throws IOException, URISyntaxException {
+        JSONObject data = new JSONObject();
+        data.put("budgetId", id);
+        data.put("acceptance", acceptance);
+        return Wholesaler.putBudgetAcceptance(data.toString());
     }
 }
