@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -18,11 +19,8 @@ import java.util.HashMap;
 
 public class Curl {
 
-	private static URI createUri(String scheme, String host, String path, HashMap<String, String> parameters) throws URISyntaxException {
+	private static URI createUri(String scheme, String host, String path) throws URISyntaxException {
 		URIBuilder uriBuilder = new URIBuilder().setScheme(scheme).setHost(host).setPath(path);
-		parameters.forEach(
-			(key, value) -> uriBuilder.setParameter(key, value)
-		);
 		return uriBuilder.build();
 	}
 
@@ -40,7 +38,10 @@ public class Curl {
 	private static HttpResponse postData(URI uri) throws IOException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(uri);
-		return client.execute(httpPost);
+		StringEntity entity = new StringEntity("test");
+		httpPost.setEntity(entity);
+		HttpResponse httpResponse = client.execute(httpPost);
+		return httpResponse;
 	}
 
 	private static HttpResponse putData(URI uri) throws IOException {
@@ -49,8 +50,8 @@ public class Curl {
 		return client.execute(httpPut);
 	}
 
-	public static String makeRequest(String scheme, String host, String path, HashMap<String, String> parameters, String type) throws URISyntaxException, IOException {
-		URI uri = createUri(scheme, host, path, parameters);
+	public static String makeRequest(String scheme, String host, String path, String type) throws URISyntaxException, IOException {
+		URI uri = createUri(scheme, host, path);
 		HttpResponse response;
 
 		switch (type){

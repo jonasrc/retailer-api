@@ -3,11 +3,13 @@ package com.atividade.retailer.service.implementation;
 import com.atividade.retailer.domain.Order;
 import com.atividade.retailer.service.OrderService;
 import com.atividade.retailer.util.Wholesaler;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     private List<Order> orderList;
 
@@ -17,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
             String wholesalerApiResponse = Wholesaler.postOrder("test");
         }
         catch(Exception exception) {
-
+            int a = 1;
         }
 
         Order order = new Order("teste", "teste");

@@ -10,10 +10,10 @@ public class Wholesaler {
 	
 	private static Map<String, String> wholesalerApi = new HashMap<String, String>() {{
 		put("scheme", "http");
-		put("host", "localhost:8090");
-		put("postOrder", "/authenticate");
+		put("host", "localhost:8090/api/v1");
+		put("postOrder", "/order");
 	}};
-	
+
 	public static String postOrder(String test) throws IOException, URISyntaxException {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 
@@ -24,7 +24,6 @@ public class Wholesaler {
 				wholesalerApi.get("scheme"),
 				wholesalerApi.get("host"),
 				wholesalerApi.get("postOrder"),
-				parameters,
 				"POST");
 
 		return response;

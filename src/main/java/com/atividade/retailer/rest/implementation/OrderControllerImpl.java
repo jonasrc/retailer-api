@@ -1,19 +1,24 @@
 package com.atividade.retailer.rest.implementation;
 
 import com.atividade.retailer.domain.Order;
+import com.atividade.retailer.domain.OrderItem;
 import com.atividade.retailer.rest.OrderController;
 import com.atividade.retailer.service.OrderService;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
 @RequestMapping(value = "/api/v1/")
 public class OrderControllerImpl implements OrderController {
+
+    @Autowired
     private OrderService orderService;
 
     @Override
@@ -30,7 +35,7 @@ public class OrderControllerImpl implements OrderController {
 
     @Override
     @PostMapping("/order")
-    public ResponseEntity<Order> create(){
+    public ResponseEntity<Order> create(ArrayList<OrderItem> orderItemList){
         Order order = orderService.create();
         return ResponseEntity.created(URI.create(order.getId())).body(order);
     }
