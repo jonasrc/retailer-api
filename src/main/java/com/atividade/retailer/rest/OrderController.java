@@ -1,5 +1,6 @@
 package com.atividade.retailer.rest;
 
+import com.atividade.retailer.domain.Budget;
 import com.atividade.retailer.domain.Order;
 import com.atividade.retailer.domain.OrderItem;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +19,7 @@ public interface OrderController {
     public ResponseEntity<List<Order>> getList();
 
     @ApiOperation(value = "Criar novo pedido de produtos")
-    public ResponseEntity<Order> create(
+    public ResponseEntity<Budget> create(
             @ApiParam(value = "Lista de itens do pedido, cada qual contando com código e número de determinado produto a ser requisitado", required = true)
             @RequestBody ArrayList<OrderItem> orderItemList);
 

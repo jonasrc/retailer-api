@@ -1,5 +1,6 @@
 package com.atividade.retailer.rest.implementation;
 
+import com.atividade.retailer.domain.Budget;
 import com.atividade.retailer.domain.Order;
 import com.atividade.retailer.domain.OrderItem;
 import com.atividade.retailer.rest.OrderController;
@@ -35,9 +36,9 @@ public class OrderControllerImpl implements OrderController {
 
     @Override
     @PostMapping("/order")
-    public ResponseEntity<Order> create(ArrayList<OrderItem> orderItemList){
-        Order order = orderService.create(orderItemList);
-        return ResponseEntity.created(URI.create(order.getId())).body(order);
+    public ResponseEntity<Budget> create(ArrayList<OrderItem> orderItemList){
+        Budget budget = orderService.create(orderItemList);
+        return ResponseEntity.created(URI.create(budget.getId())).body(budget);
     }
 
     @Override

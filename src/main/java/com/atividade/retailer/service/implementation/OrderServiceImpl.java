@@ -1,11 +1,14 @@
 package com.atividade.retailer.service.implementation;
 
+import com.atividade.retailer.domain.Budget;
 import com.atividade.retailer.domain.Order;
 import com.atividade.retailer.domain.OrderItem;
+import com.atividade.retailer.service.BudgetService;
 import com.atividade.retailer.service.OrderService;
 import com.atividade.retailer.util.Wholesaler;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +20,15 @@ public class OrderServiceImpl implements OrderService {
 
     private List<Order> orderList;
 
+    @Autowired
+    private BudgetService budgetService;
+
     public OrderServiceImpl() {
         this.orderList = new ArrayList<>();
     }
 
     @Override
-    public Order create(ArrayList<OrderItem> orderItemList) {
+    public Budget create(ArrayList<OrderItem> orderItemList) {
         String orderItemListString = new JSONArray(orderItemList).toString();
         String wholesalerApiResponse = "";
 
@@ -38,12 +44,17 @@ public class OrderServiceImpl implements OrderService {
         JSONObject jsonResponse = new JSONObject(wholesalerApiResponse);
 
         // Criação do pedido na API do lojista a partir da resposta da API do atacadista
-        Order order = new Order(jsonResponse.getString("status"), jsonResponse.getString("id"));
+        Order order = new Order(jsonResponse.getString("orderStatus"), jsonResponse.getString("orderId"));
 
         // Adição do pedido à lista de pedidos da API do lojista
         this.orderList.add(order);
 
-        return order;
+        // Criando orçamento no ambiente da API do lojista
+        Budget budget = budgetService.create(
+                jsonResponse.getString("budgetId"),
+                jsonResponse.getDouble("budgetValue"));
+
+        return budget;
     }
 
     @Override
